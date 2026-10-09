@@ -583,6 +583,8 @@ html{background:#1D0B03!important}
 /* Werk: de kop staat onder de straat, vlak boven de drie projecten */
 .werk{padding-top:0!important}
 .werk-head{padding-top:clamp(28px,3vw,44px)!important;padding-bottom:0!important;margin-bottom:0!important;border-image:none!important}
+/* donker: de verdonkering dekt ook de overloopstrook boven de straat, anders licht die op als een band */
+.street .art .dim{-webkit-mask-image:linear-gradient(transparent,#000 110px,#000 calc(100% - 200px),transparent);mask-image:linear-gradient(transparent,#000 110px,#000 calc(100% - 200px),transparent)}
 /* desktop: alleen lege lucht boven de daken eraf, en de straat schuift iets op onder het einde van Wat ik doe */
 @media (min-width:721px){
   .street{height:calc(100vw / 2.333 * .92)!important;margin-top:-7vw}

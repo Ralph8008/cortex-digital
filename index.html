@@ -285,7 +285,7 @@ main [id]{scroll-margin-top:calc(var(--barh) + 12px)}
   background:linear-gradient(in oklab,var(--strip-top) 0,var(--strip-top) 40px,var(--strip-bot) var(--sh),var(--meadow-deep) calc(var(--sh) + 220px),var(--meadow-deep) calc(100% - 300px),var(--meadow-haze) calc(100% - 110px),var(--werk-sky))}
 .doen{--sh:max(84px, 100vw / 5.917)}
 .strip{position:relative;height:var(--sh)}
-.strip .art{--ar:5.917;--py:.5;--ft:12%;--fb:22%;--et:1px;--eb:80px;filter:var(--strip-f)}
+.strip .art{--ar:5.917;--py:.5;--ft:12%;--fb:4%;--et:1px;--eb:80px;filter:var(--strip-f)}
 .bocage{display:block;width:100%;height:calc(var(--bh,32) * 2px);image-rendering:pixelated;margin-top:-6px;
   -webkit-mask-image:linear-gradient(transparent,#000 30%,#000 70%,transparent);mask-image:linear-gradient(transparent,#000 30%,#000 70%,transparent)}
 .doen .head{margin-top:clamp(18px,2vw,32px)}
@@ -303,7 +303,7 @@ main [id]{scroll-margin-top:calc(var(--barh) + 12px)}
   background:linear-gradient(var(--cobble) 0,var(--cobble-2) calc(100% - 300px),var(--path))}
 .werk-head{padding-top:clamp(64px,6vw,96px);padding-bottom:clamp(40px,4vw,64px);margin-bottom:clamp(-64px,-4vw,-40px);position:relative;z-index:2;border-image:conic-gradient(var(--werk-sky) 0 0) fill 0//0 100vmax}
 .werk-head .head{margin-bottom:0}
-.street{height:min(820px,max(230px,calc(100vw / 2.333)));position:relative;z-index:1}
+.street{height:max(230px,calc(100vw / 2.333));position:relative;z-index:1}
 .street .art{--ar:2.333;--py:1;--ft:110px;--fb:110px;--et:60px;--eb:90px}
 .street .art{z-index:1}
 .vflag{position:absolute;left:6.18%;top:calc(24.83% - 2px);width:7.11%;aspect-ratio:3/2;image-rendering:pixelated}
@@ -492,7 +492,7 @@ main [id]{scroll-margin-top:calc(var(--barh) + 12px)}
 }
 
 .bocage{display:none!important}
-.strip{-webkit-mask-image:linear-gradient(#000 88%,transparent 100%);mask-image:linear-gradient(#000 88%,transparent 100%);-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.strip{-webkit-mask-image:linear-gradient(#000 96%,transparent 100%);mask-image:linear-gradient(#000 96%,transparent 100%);-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
 @media (max-width:700px){.doen{--sh:170px}.strip .art{--minh:170px;--px:.55;--ft:3%;--fb:10%}}
 
 .shot{display:block;margin:0;padding:12px;text-decoration:none;color:inherit;transition:transform .25s ease}

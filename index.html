@@ -41,7 +41,7 @@
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --muted:#B9C0CF; --card:#1E2537; --field-bg:#151B2A;
+    --muted:#B9C0CF; --card:#1E2537; --field-bg:#2B3550;
     --bfg:#F4F1EA; --cfg:#F4F1EA; --btn:#FFD45E; --btn-fg:#1B1F1A; --btn-hover:#FFE38F; --fg:#F4F1EA; --bg:#14224C;
     --herken-top:#16285A; --herken-mid:#22356A; --herken-bot:#34405E;
     --verhaal-mid:#4A4A5E; --strip-top:#7D705A; --strip-bot:#454420; --meadow-deep:#34401F; --meadow-haze:#3C4D55;
@@ -60,7 +60,7 @@
   }
 }
 :root[data-theme="dark"]{
-  --muted:#B9C0CF; --card:#1E2537; --field-bg:#151B2A;
+  --muted:#B9C0CF; --card:#1E2537; --field-bg:#2B3550;
   --bfg:#F4F1EA; --cfg:#F4F1EA; --btn:#FFD45E; --btn-fg:#1B1F1A; --btn-hover:#FFE38F; --fg:#F4F1EA; --bg:#14224C;
   --herken-top:#16285A; --herken-mid:#22356A; --herken-bot:#34405E;
   --verhaal-mid:#4A4A5E; --strip-top:#7D705A; --strip-bot:#454420; --meadow-deep:#34401F; --meadow-haze:#3C4D55;
@@ -394,6 +394,7 @@ main [id]{scroll-margin-top:calc(var(--barh) + 12px)}
 .inp input,.inp textarea{display:block;width:100%;border:0;background:transparent;color:inherit;font:400 1.0625rem/1.4 var(--body);padding:14px 16px;min-height:52px;outline:none}
 .inp textarea{min-height:120px;resize:vertical}
 .form .btn{justify-self:start;--gap-c:var(--card)}
+.status:empty{display:none}
 .status{min-height:1.5em;font-weight:600;display:flex;align-items:center;gap:12px}
 .status:not(:empty)::before{content:"";width:10px;height:14px;flex:none;background:linear-gradient(#F08AB4 0 60%,#7A4B26 60%)}
 .info{display:grid;gap:12px;padding:clamp(20px,2.4vw,28px)}
@@ -590,6 +591,38 @@ html{background:#1D0B03!important}
   .street{height:calc(100vw / 2.333 * .92)!important;margin-top:-7vw}
   .street .art{--ft:70px}
 }
+
+/* contactformulier: naam en e-mail naast elkaar, telefoon en bijlage optioneel, knop met privacyregel */
+.form .row2{display:grid;gap:18px}
+@media (min-width:721px){ .form .row2{grid-template-columns:1fr 1fr} }
+.fld .opt{font-weight:400;font-size:.9375rem;color:var(--cmuted)}
+.fld .hint,.drop .hint{display:block;font-weight:400;font-size:.9375rem;line-height:1.4;color:var(--cmuted)}
+.fld .hint{margin-top:-4px}
+.inp input::placeholder{color:var(--cmuted);opacity:.85}
+.inp textarea{resize:none}
+.drop{display:flex;align-items:center;gap:14px;min-height:64px;padding:16px 18px;--fill:var(--field-bg);cursor:pointer;font-weight:400;font-size:1rem;line-height:1.35}
+.drop::after{content:"";position:absolute;inset:6px;border:2px dashed color-mix(in oklab,var(--cmuted) 55%,transparent);pointer-events:none}
+.drop input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+.drop .clip{flex:none;color:var(--cmuted)}
+.drop b{font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.drop.over{--fill:color-mix(in oklab,var(--field-bg),#FFD34E 30%)}
+.drop.over::after{border-color:currentColor}
+.drop:has(input:focus-visible){outline:3px solid var(--ring,#2B6CB0);outline-offset:3px}
+@media (hover:none){ .drop .sleep{display:none} }
+.files{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.files:empty{display:none}
+.files li{display:flex;align-items:center;gap:10px;padding:6px 6px 6px 14px;--fill:var(--field-bg);font-weight:400;font-size:.9375rem}
+.files .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.files .sz{color:var(--cmuted);flex:none}
+.files button{flex:none;width:36px;height:36px;display:grid;place-items:center;font:700 1.125rem/1 var(--body);color:inherit;--fill:color-mix(in oklab,var(--field-bg),currentColor 10%)}
+.files-msg{margin:0;font-weight:600;font-size:.9375rem;color:#B5452F}
+.files-msg:empty{display:none}
+:root[data-theme="dark"] .files-msg{color:#F5A38E}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .files-msg{color:#F5A38E} }
+.send{display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px;margin-top:4px}
+.send .btn{justify-self:auto}
+.privacy{margin:0;font-size:.9375rem;line-height:1.4;color:var(--cmuted);max-width:32ch}
+@media (max-width:720px){ .send .btn{width:100%} .privacy{max-width:none} }
 
 /* footer woordmerk met dezelfde diepte als de slogan */
 .foot .fword{color:#F7F7F4;-webkit-text-stroke:.06em #111;paint-order:stroke fill;text-shadow:.06em .07em 0 #111}
@@ -976,10 +1009,22 @@ html{background:#1D0B03!important}
     <form class="form card px" novalidate>
       <div class="head"><h2 id="h-contact">Wat loopt er bij jou vast?</h2><span class="pxline" aria-hidden="true"></span>
         <p>Stuur me een berichtje, kort mag ook. Binnen twee werkdagen hoor je van me.</p></div>
-      <label class="fld">Naam<span class="inp px"><input name="naam" autocomplete="name" required></span></label>
-      <label class="fld">E-mail<span class="inp px"><input name="email" type="email" autocomplete="email" required></span></label>
-      <label class="fld">Bericht<span class="inp px"><textarea name="bericht" rows="4" required></textarea></span></label>
-      <button class="btn px" type="submit">Verstuur</button>
+      <div class="row2">
+        <label class="fld">Naam<span class="inp px"><input name="naam" autocomplete="name" required></span></label>
+        <label class="fld">E-mail<span class="inp px"><input name="email" type="email" autocomplete="email" required></span></label>
+      </div>
+      <label class="fld"><span class="lbl">Telefoon <span class="opt">(optioneel)</span></span><span class="inp px"><input name="telefoon" type="tel" autocomplete="tel" inputmode="tel" placeholder="Als je liever even belt"></span></label>
+      <label class="fld">Bericht<span class="hint" id="bericht-hulp">Waar loop je tegenaan? Een paar zinnen is genoeg.</span><span class="inp px"><textarea name="bericht" rows="4" required aria-describedby="bericht-hulp"></textarea></span></label>
+      <div class="fld">
+        <span class="lbl">Bijlage <span class="opt">(optioneel)</span></span>
+        <label class="drop px"><input type="file" name="bijlage" multiple accept="image/*,.pdf,application/pdf" aria-describedby="bijlage-hulp">
+          <svg class="clip" viewBox="0 0 16 16" width="22" height="22" aria-hidden="true" shape-rendering="crispEdges"><path fill="currentColor" d="M9 1h3v1h1v1h1v6h-1v1h-1v1h-1v1h-1v1H9v1H8v1H6v1H4v-1H3v-1H2v-1H1V9h1V8h1V7h1V6h1V5h1V4h1V3h1v1h1v1H8v1H7v1H6v1H5v1H4v1H3v2h1v1h2v-1h1v-1h1v-1h1V9h1V8h1V7h1V3h-1V2H9v1H8V2h1z"/></svg>
+          <span class="drop-txt"><b>Kies een bestand</b><span class="sleep"> of sleep het hierheen</span><span class="hint" id="bijlage-hulp">Schermafbeelding of PDF, maximaal 3 bestanden van 10 MB</span></span>
+        </label>
+        <ul class="files"></ul>
+        <p class="files-msg" role="status" aria-live="polite"></p>
+      </div>
+      <div class="send"><button class="btn px" type="submit">Verstuur bericht</button><p class="privacy">Ik gebruik je gegevens alleen om je terug te mailen.</p></div>
       <p class="status" role="status" aria-live="polite"></p>
     </form>
     <div class="info card px">
@@ -1065,12 +1110,45 @@ html{background:#1D0B03!important}
 
   /* ---------------- form + letterbox flag ---------------- */
   var form = document.querySelector('.form'), box = document.querySelector('.pflag');
+  // attachments: at most 3 images or PDFs of 10 MB; the list shows each file with a button to take it off
+  var fileIn = form.querySelector('input[type=file]'), drop = form.querySelector('.drop'), list = form.querySelector('.files'), fmsg = form.querySelector('.files-msg'), picked = [];
+  var MAXF = 3, MAXB = 10 * 1024 * 1024;
+  function fsize(n){ return n < 1024 * 1024 ? Math.max(1, Math.round(n / 1024)) + ' kB' : (n / 1024 / 1024).toFixed(1).replace('.', ',') + ' MB'; }
+  function okType(f){ return /^image\//.test(f.type) || f.type === 'application/pdf' || /\.pdf$/i.test(f.name); }
+  function syncFiles(){
+    try{ var dt = new DataTransfer(); picked.forEach(function(f){ dt.items.add(f); }); fileIn.files = dt.files; }catch(e){}
+    list.innerHTML = '';
+    picked.forEach(function(f, i){
+      var li = document.createElement('li'); li.className = 'px';
+      var nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = f.name;
+      var sz = document.createElement('span'); sz.className = 'sz'; sz.textContent = fsize(f.size);
+      var rm = document.createElement('button'); rm.type = 'button'; rm.className = 'px'; rm.textContent = '\u00d7'; rm.setAttribute('aria-label', 'Verwijder ' + f.name);
+      rm.addEventListener('click', function(){ picked.splice(i, 1); fmsg.textContent = ''; syncFiles(); fileIn.focus(); });
+      li.appendChild(nm); li.appendChild(sz); li.appendChild(rm); list.appendChild(li);
+    });
+  }
+  function addFiles(fl){
+    var notes = [];
+    [].slice.call(fl || []).forEach(function(f){
+      if(picked.some(function(p){ return p.name === f.name && p.size === f.size; })) return;
+      if(!okType(f)){ notes.push(f.name + ' is geen afbeelding of PDF'); return; }
+      if(f.size > MAXB){ notes.push(f.name + ' is groter dan 10 MB'); return; }
+      if(picked.length >= MAXF){ notes.push('Je kunt maximaal 3 bestanden meesturen'); return; }
+      picked.push(f);
+    });
+    fmsg.textContent = notes.filter(function(n, i){ return notes.indexOf(n) === i; }).join('. ');
+    syncFiles();
+  }
+  fileIn.addEventListener('change', function(){ var fl = [].slice.call(fileIn.files); addFiles(fl); });
+  ['dragenter','dragover'].forEach(function(ev){ drop.addEventListener(ev, function(e){ e.preventDefault(); drop.classList.add('over'); }); });
+  ['dragleave','drop'].forEach(function(ev){ drop.addEventListener(ev, function(){ drop.classList.remove('over'); }); });
+  drop.addEventListener('drop', function(e){ e.preventDefault(); addFiles(e.dataTransfer && e.dataTransfer.files); });
   form.addEventListener('submit', function(e){
     e.preventDefault();
     if(!form.checkValidity()){ form.reportValidity(); return; }
     form.querySelector('.status').textContent = 'Bedankt, ik mail je binnen twee werkdagen terug.';
     box.classList.add('up');
-    form.reset();
+    form.reset(); picked = []; fmsg.textContent = ''; syncFiles();
   });
 
   /* =================================================================

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Cortex Digital | Gewoon goed geregeld.</title></head><body>
+<html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#67abe4"><title>Cortex Digital | Gewoon goed geregeld.</title></head><body>
 <style>
 /* Cortex Digital v6: "Van lucht naar grond", made calmer and more finished.
    Painted scenes carry the atmosphere. Every band melts into the next one: each painting fades out (mask-image)
@@ -576,6 +576,9 @@ main [id]{scroll-margin-top:calc(var(--barh) + 12px)}
 /* lage schermen (bijvoorbeeld Safari met balken van claude.ai): als de introkaart niet in het podium past, groeit de hero mee */
 .hero.fit{height:auto!important}
 .hero.fit .hstage{position:relative!important;top:0!important;height:auto!important;min-height:100svh!important;padding-bottom:64px!important}
+
+/* Safari kleurt zijn balken met de achtergrond van de pagina: maak die het bruin van de voet, niet een vast blauw */
+html{background:#1D0B03!important}
 
 /* footer woordmerk met dezelfde diepte als de slogan */
 .foot .fword{color:#F7F7F4;-webkit-text-stroke:.06em #111;paint-order:stroke fill;text-shadow:.06em .07em 0 #111}
@@ -2358,6 +2361,22 @@ main [id]{scroll-margin-top:calc(var(--barh) + 12px)}
   if(!reduce) addAnim(NET.sec, function(now){ netFx(now); });
 
   /* ---------------- after fonts: everything that depends on final layout ---------------- */
+  /* the browser bar takes the colour of the band at the top of the screen; at the bottom of the page it is the soil brown */
+  (function(){
+    var m = document.querySelector('meta[name="theme-color"]');
+    if(!m){ m = document.createElement('meta'); m.name = 'theme-color'; document.head.appendChild(m); }
+    var bands = [].slice.call(document.querySelectorAll('section, footer')), last = '', busy = false;
+    function opaque(c){ return c && c.indexOf('rgba(0, 0, 0, 0)') < 0 && c !== 'transparent'; }
+    function hex(c){ var v = c.match(/\d+/g); return v ? '#' + v.slice(0, 3).map(function(n){ return (+n).toString(16).padStart(2, '0'); }).join('') : c; }
+    function pick(){
+      busy = false; var col = '#67abe4';
+      if(innerHeight + scrollY >= document.documentElement.scrollHeight - 4) col = '#1d0b03';
+      else for(var i=0;i<bands.length;i++){ var r = bands[i].getBoundingClientRect(); if(r.top <= 1 && r.bottom > 1){ var c = getComputedStyle(bands[i]).backgroundColor; if(opaque(c)) col = hex(c); break; } }
+      if(col !== last){ last = col; m.content = col; }
+    }
+    addEventListener('scroll', function(){ if(!busy){ busy = true; requestAnimationFrame(pick); } }, {passive:true});
+    pick();
+  })();
   function relayoutAll(){
     if(H){ heroLayout(); } heroSize(); if(H){ if(H.assembled && !H.busy) drawRest(); }
     skyFrame(); bocage(); netLayout(); swallowLayout();
